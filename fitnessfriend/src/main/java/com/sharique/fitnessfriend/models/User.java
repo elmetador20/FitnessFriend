@@ -23,7 +23,7 @@ public class User {
   @Id
   @NonNull
   @GeneratedValue(strategy=GenerationType.UUID)
-  private String Id;
+  private String id;
 
   @Column(unique=true)
   private String email;
