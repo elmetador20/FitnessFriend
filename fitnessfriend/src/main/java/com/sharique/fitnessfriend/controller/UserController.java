@@ -10,6 +10,7 @@ import com.sharique.fitnessfriend.dto.RegisterRequest;
 import com.sharique.fitnessfriend.dto.UserResponse;
 import com.sharique.fitnessfriend.services.UserService;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 @RestController
@@ -19,7 +20,7 @@ public class UserController {
   private UserService userService;
 
   @PostMapping("/register")
-  public ResponseEntity<UserResponse> register(@RequestBody RegisterRequest request){
+  public ResponseEntity<UserResponse> register(@Valid  @RequestBody RegisterRequest request){
   return ResponseEntity.ok(userService.register(request));
   }
 
