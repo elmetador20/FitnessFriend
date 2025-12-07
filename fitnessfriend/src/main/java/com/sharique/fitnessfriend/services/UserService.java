@@ -1,5 +1,7 @@
 package com.sharique.fitnessfriend.services;
 
+import javax.management.RuntimeErrorException;
+
 import org.springframework.stereotype.Service;
 
 import com.sharique.fitnessfriend.dto.RegisterRequest;
@@ -40,7 +42,19 @@ public class UserService {
      return userResponse;
 
 
-
+  }
+  public UserResponse  getUserProfile(String userId) {
+   User user=repository.findById(userId)
+    .orElseThrow(()->new RuntimeException("User not found"));
+    UserResponse userResponse =new UserResponse();// userresposne ka object banaya hai yaha pe
+     userResponse.setId(user.getId());
+     userResponse.setPassword(user.getPassword());
+     userResponse.setEmail(user.getEmail());
+     userResponse.setFirstName(user.getFirstName());   
+      userResponse.setLastName(user.getLastName());  
+      userResponse.setCreatedAt(user.getCreatedAt());
+      userResponse.setUpdatedAt(user.getUpdatedAt());
+     return userResponse;
   }
 
 }
