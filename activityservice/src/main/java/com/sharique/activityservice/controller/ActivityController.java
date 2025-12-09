@@ -12,7 +12,7 @@ import com.sharique.activityservice.service.ActivityService;
 
 import lombok.AllArgsConstructor;
 @RestController
-@RequestMapping("/api/activites")
+@RequestMapping("/api/activities")
 @AllArgsConstructor
 public class ActivityController {
   private ActivityService activityService;
