@@ -1,5 +1,6 @@
 package com.sharique.aiservice.model;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -8,25 +9,28 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.mongodb.lang.NonNull;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Document(collection="recommendations")
+@Document(collection = "recommendations")
 @Data
-@Builder//builder is used to create the objects
+@Builder 
+
 public class Recommendation {
   @Id
-   private String id;
-   @NonNull
-   private String activityId;
-   private String userId;
-   private String recommendation;
-   private List<String> suggestions;
-   private List<String> safety;
-   private List<String> improvements;
+  private String id;
+  private String activityId;
+  private String userId;
+  private String recommendation;
+
+  private List<String> suggestions;
+  private List<String> safety;
+  private List<String> improvements;
+
 
   @CreatedDate
   private LocalDateTime createdAt;
-
 
 }
