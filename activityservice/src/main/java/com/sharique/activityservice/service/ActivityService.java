@@ -1,5 +1,7 @@
 package com.sharique.activityservice.service;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import com.sharique.activityservice.dto.ActivityRequest;
@@ -11,12 +13,17 @@ import lombok.RequiredArgsConstructor;
 
 
 
+
 @Service
 @RequiredArgsConstructor //cpnstructor generate krta hai required arguments ka
-public class ActivityService {
-   
+public class ActivityService { 
 private final ActivityRepository acitvityRepository;//repo ka instance bana rhe haai yaha pe
 private final UserValidationService userValidationService;
+private final KafkaTemplate<String , Activity> kafkaTemplate;// use to send data to kafka
+@Value("${kafka.topic.name}")
+private String topicName;
+
+
 public ActivityResponse trackActivity(ActivityRequest request){
 
   Boolean isValidUser=userValidationService.validateUser(request.getUserId());
@@ -33,6 +40,13 @@ public ActivityResponse trackActivity(ActivityRequest request){
                             .aditionalMetrics(request.getAditionalMetrics())
                             .build();
   Activity savedActivity=acitvityRepository.save(activity); //db me save kr rhe hai
+  try {
+    
+    kafkaTemplate.send(topicName , savedActivity.getUserId(),savedActivity);
+  } catch (Exception e) {
+    e.printStackTrace();
+  }
+  
   return mapToResponse(savedActivity);
 }
 private ActivityResponse mapToResponse(Activity activity) {
